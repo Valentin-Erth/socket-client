@@ -7,10 +7,18 @@ import icon from '../../../assets/emodji.svg'
 import EmojiPicker from "emoji-picker-react";
 import {Messages} from "@/features/chat/ui/messages.tsx";
 
-const socket = io("http://localhost:3009");
+// const socket = io("")
+// const socket = io("http://localhost:3009");
+const socket = io("https://socket-server-three-kappa.vercel.app/");
+// type EmojiObjectType = {
+//     emoji: string;
+//     names: string[];
+//     unicode: string;
+//     activeSkinTone: string;
+// }
 export const Chat = () => {
     // console.log('Chat rendered')
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const location = useLocation()
     const [params, setParams] = useState<Record<string, string> | null>(null)
     console.log(params)
@@ -20,7 +28,7 @@ export const Chat = () => {
         message: string
     }[]>([])
     const [message, setMessage] = useState("")
-    const [users, setUser]=useState(0)
+    const [users, setUser] = useState(0)
 
     useEffect(() => {
         const searchParams = Object.fromEntries(new URLSearchParams(location.search))//перобразуем строку после ?,из параметров запросаиз урла в по ключ-значению в объект
@@ -37,21 +45,21 @@ export const Chat = () => {
     }, []);
     useEffect(() => {
         socket.on("room", ({data}) => {
-            console.log("users",data.users)
+            console.log("users", data.users)
             setUser(data.users.length)
         })
     }, []);
     // console.log("state", state)
-      const leftRoom = () => {
+    const leftRoom = () => {
         socket.emit("leftRoom", {params})
         navigate("/")
     }
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setMessage(e.currentTarget.value)
     }
-    const onEmodjiClick = (emoji: any) => {
-        console.log(emoji);
-        setMessage(`${message} ${emoji.emoji}`)
+    const onEmodjiClick = (EmojiObject: any) => {
+        console.log(EmojiObject);
+        setMessage(`${message} ${EmojiObject.emoji}`)
     }
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
