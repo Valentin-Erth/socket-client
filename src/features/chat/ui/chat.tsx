@@ -9,10 +9,10 @@ import {Messages} from "@/features/chat/ui/messages.tsx";
 
 // const socket = io("")
 // const socket = io("http://localhost:3009");
-const socket = io("https://socket-server-three-kappa.vercel.app");
-// {
-//     transports: ['websocket', 'polling', 'flashsocket']
-// }
+const socket = io("https://socket-server-three-kappa.vercel.app",{
+    transports: ['websocket', 'polling', 'flashsocket']
+});
+
 // type EmojiObjectType = {
 //     emoji: string;
 //     names: string[];
